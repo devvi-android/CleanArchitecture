@@ -6,8 +6,8 @@ import android.widget.EditText
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProvider
 import com.example.cleanarchitecture.R
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class MainActivity : AppCompatActivity() {
     lateinit var userName: TextView
@@ -15,7 +15,7 @@ class MainActivity : AppCompatActivity() {
     lateinit var editTextUserName: EditText
     lateinit var saveUserName: Button
 
-    lateinit var viewModel: MainViewModel
+    private val viewModel by viewModel<MainViewModel>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -24,11 +24,6 @@ class MainActivity : AppCompatActivity() {
         getUserNameBtn = findViewById(R.id.getUserName)
         editTextUserName = findViewById(R.id.userName_ET)
         saveUserName = findViewById(R.id.saveUserName)
-
-        viewModel = ViewModelProvider(
-            this,
-            MainViewModelFactory(this)
-        )[MainViewModel::class.java]
 
         viewModel.resultLiveData.observe(this, Observer {
             userName.text = it
